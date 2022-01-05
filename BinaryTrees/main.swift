@@ -8,9 +8,9 @@
 import Foundation
 
 /*
- Binary trees have a downward "tree" structure, with nodes splitting off like leaves. Trees start from the root, and split into left and right children. All branches are just new trees splitting off of the tree above. This is a recursive structure. O(log n)
+ Binary trees have a downward "tree" structure, with nodes splitting off like leaves. Trees start from the root, and split into left and right children. All branches are just new trees splitting off of the tree above. This is a recursive structure.
  
- MARK: Terms to know. Full, Perfect, Balanced
+ MARK: Terms to know. Full, Perfect, Balanced. Ordered. Recursive. O(log n) (half/half/half). Depth vs Breadth. Depth: Inorder, Preorder, Postoeder. Great for searching!
  
  ex      o  <- this tree is "full" : every branch ends in 0 or 2 child nodes
         / \
@@ -78,7 +78,15 @@ MARK: Binary Search Tree Delete
   If no children, you've reached the end. Just set it to null.
   If one child, replace the node you want to delete with it's child (child moves up)
   If two children, follow the right hand path until minimum value is found, use it to replace the node you want to delete, and then set it's original node to null. This is the most complex delete function.
-  
+  MARK: Traversing Binary Trees
+  Depth first: Inorder, Preorder, Postorder
+  ex:  1
+      / \
+     2   3
+  Inorder: 2, 1, 3 (L, Root, R) Used for getting data in order
+  Preorder: 1, 2, 3 (Root, L, R) Used for copying tree
+  PostOrder: 2, 3, 1 (L, R, Root) Bottom up [used in deletes]
+  MARK: memory tricks -> "Pre" = start at Root, "Post" = end at Root, and left always comes before right.
  */
 
 class BinarySearchTree {
@@ -175,6 +183,8 @@ class BinarySearchTree {
         }
     return nil
     }
+    
+    
 }
 
 
@@ -182,28 +192,25 @@ print("")
 print("Values after inserting into binary search tree:")
 let binarySearchTree = BinarySearchTree()
 
-func testDeleteNoChild() {
-    binarySearchTree.insert(key: 5)
-    binarySearchTree.insert(key: 3)
-    binarySearchTree.insert(key: 2)
-    binarySearchTree.insert(key: 4)
-    binarySearchTree.insert(key: 7)
-    binarySearchTree.insert(key: 6)
-    binarySearchTree.insert(key: 8)
+binarySearchTree.insert(key: 5)
+binarySearchTree.insert(key: 3)
+binarySearchTree.insert(key: 2)
+binarySearchTree.insert(key: 4)
+binarySearchTree.insert(key: 7)
+binarySearchTree.insert(key: 6)
+binarySearchTree.insert(key: 8)
 
-    binarySearchTree.delete(key: 2)
+//binarySearchTree.delete(key: 2)
 
+print(binarySearchTree.find(key: 5) ?? 0)
+print(binarySearchTree.find(key: 3) ?? 0)
+print(binarySearchTree.find(key: 2) ?? 0)
+print(binarySearchTree.find(key: 4) ?? 0)
+print(binarySearchTree.find(key: 7) ?? 0)
+print(binarySearchTree.find(key: 6) ?? 0)
+print(binarySearchTree.find(key: 8) ?? 0)
 
-    print(binarySearchTree.find(key: 5) ?? 0)
-    print(binarySearchTree.find(key: 3) ?? 0)
-    print(binarySearchTree.find(key: 2) ?? 0)
-    print(binarySearchTree.find(key: 4) ?? 0)
-    print(binarySearchTree.find(key: 7) ?? 0)
-    print(binarySearchTree.find(key: 6) ?? 0)
-    print(binarySearchTree.find(key: 8) ?? 0)
-}
-
-testDeleteNoChild()
+print(binarySearchTree.findMin())
 
 //print("")
 //print("Values after deleting keys 3, 4, 7, 8:")

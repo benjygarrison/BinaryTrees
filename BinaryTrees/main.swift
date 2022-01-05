@@ -137,11 +137,12 @@ class BinarySearchTree {
     
     func findMin() -> Int {
         //only traverses left branches until it hits null
-        return 0
+        guard let root = root else { return 0 }
+        return findMin(root).key
     }
     
     private func findMin(_ node: Node) -> Node {
-        return Node(0)
+        return node.min
     }
     
     func delete(key: Int) {
@@ -229,3 +230,5 @@ print(binarySearchTree.findMin())
 //print(binarySearchTree.find(key: 8) ?? 0)
 
 
+print("")
+print("Algo questions start here:")

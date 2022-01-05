@@ -139,6 +139,7 @@ class BinarySearchTree {
     func delete(key: Int) {
         guard let _ = root else { return }
         root = delete(&root, key)
+        //note: ampersand is a pointer, being used with inout function to pass by reference
     }
     
     private func delete(_ node: inout Node?, _ key: Int) -> Node? {
@@ -187,5 +188,7 @@ binarySearchTree.insert(key: 4)
 binarySearchTree.insert(key: 7)
 binarySearchTree.insert(key: 6)
 binarySearchTree.insert(key: 8)
+
+
 
 

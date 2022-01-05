@@ -166,7 +166,7 @@ class BinarySearchTree {
             //find min node on right (or max on left)
             let minRight = findMin(nd.right!)
         
-            //duplicate it by copyig it's value
+            //duplicate it by copying it's value
             node!.key = minRight.key
             
             //delete the duplicated node
@@ -179,16 +179,46 @@ class BinarySearchTree {
 
 
 print("")
-print("Inserting into binary search tree:")
+print("Values after inserting into binary search tree:")
 let binarySearchTree = BinarySearchTree()
-binarySearchTree.insert(key: 5)
-binarySearchTree.insert(key: 3)
-binarySearchTree.insert(key: 2)
-binarySearchTree.insert(key: 4)
-binarySearchTree.insert(key: 7)
-binarySearchTree.insert(key: 6)
-binarySearchTree.insert(key: 8)
+
+func testDeleteNoChild() {
+    binarySearchTree.insert(key: 5)
+    binarySearchTree.insert(key: 3)
+    binarySearchTree.insert(key: 2)
+    binarySearchTree.insert(key: 4)
+    binarySearchTree.insert(key: 7)
+    binarySearchTree.insert(key: 6)
+    binarySearchTree.insert(key: 8)
+
+    binarySearchTree.delete(key: 2)
 
 
+    print(binarySearchTree.find(key: 5) ?? 0)
+    print(binarySearchTree.find(key: 3) ?? 0)
+    print(binarySearchTree.find(key: 2) ?? 0)
+    print(binarySearchTree.find(key: 4) ?? 0)
+    print(binarySearchTree.find(key: 7) ?? 0)
+    print(binarySearchTree.find(key: 6) ?? 0)
+    print(binarySearchTree.find(key: 8) ?? 0)
+}
+
+testDeleteNoChild()
+
+//print("")
+//print("Values after deleting keys 3, 4, 7, 8:")
+//
+//binarySearchTree.delete(key: 3)
+//binarySearchTree.delete(key: 4)
+//binarySearchTree.delete(key: 7)
+//binarySearchTree.delete(key: 8)
+//
+//print(binarySearchTree.find(key: 5) ?? 0)
+//print(binarySearchTree.find(key: 3) ?? 0)
+//print(binarySearchTree.find(key: 2) ?? 0)
+//print(binarySearchTree.find(key: 4) ?? 0)
+//print(binarySearchTree.find(key: 7) ?? 0)
+//print(binarySearchTree.find(key: 6) ?? 0)
+//print(binarySearchTree.find(key: 8) ?? 0)
 
 

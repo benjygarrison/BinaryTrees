@@ -185,7 +185,32 @@ class BinarySearchTree {
     return nil
     }
     
-    
+    func printInOrderTravseral() { inOrderTraversal(node: root) }
+        
+        func inOrderTraversal(node: Node?) {
+            guard let node = node else { return }
+            inOrderTraversal(node: node.left)
+            print(node.key) // root
+            inOrderTraversal(node: node.right)
+        }
+        
+        func printPreOrderTravseral() { preOrderTraversal(node: root) }
+        
+        func preOrderTraversal(node: Node?) {
+            guard let node = node else { return }
+            print(node.key) // root
+            preOrderTraversal(node: node.left)
+            preOrderTraversal(node: node.right)
+        }
+
+        func printPostOrderTravseral() { postOrderTraversal(node: root) }
+        
+        func postOrderTraversal(node: Node?) {
+            guard let node = node else { return }
+            postOrderTraversal(node: node.left)
+            postOrderTraversal(node: node.right)
+            print(node.key) // root
+        }
 }
 
 
@@ -201,8 +226,6 @@ binarySearchTree.insert(key: 7)
 binarySearchTree.insert(key: 6)
 binarySearchTree.insert(key: 8)
 
-//binarySearchTree.delete(key: 2)
-
 print(binarySearchTree.find(key: 5) ?? 0)
 print(binarySearchTree.find(key: 3) ?? 0)
 print(binarySearchTree.find(key: 2) ?? 0)
@@ -213,22 +236,7 @@ print(binarySearchTree.find(key: 8) ?? 0)
 
 print(binarySearchTree.findMin())
 
-//print("")
-//print("Values after deleting keys 3, 4, 7, 8:")
-//
-//binarySearchTree.delete(key: 3)
-//binarySearchTree.delete(key: 4)
-//binarySearchTree.delete(key: 7)
-//binarySearchTree.delete(key: 8)
-//
-//print(binarySearchTree.find(key: 5) ?? 0)
-//print(binarySearchTree.find(key: 3) ?? 0)
-//print(binarySearchTree.find(key: 2) ?? 0)
-//print(binarySearchTree.find(key: 4) ?? 0)
-//print(binarySearchTree.find(key: 7) ?? 0)
-//print(binarySearchTree.find(key: 6) ?? 0)
-//print(binarySearchTree.find(key: 8) ?? 0)
-
+//MARK: Algo Questions.
 
 print("")
 print("Algo questions start here:")

@@ -7,6 +7,9 @@
 
 import Foundation
 
+//MARK: TODO -> Add actual unit tests!
+
+
 /*
  Binary trees have a downward "tree" structure, with nodes splitting off like leaves. Trees start from the root, and split into left and right children. All branches are just new trees splitting off of the tree above. This is a recursive structure.
  
@@ -240,3 +243,92 @@ print(binarySearchTree.findMin())
 
 print("")
 print("Algo questions start here:")
+
+
+/*
+ MARK: Question 1, is this a Binary Search Tree?
+ - Does it contain no duplicates?
+ - Is it ordered with greater values on the right and lesser values on the left?
+ */
+
+//Note building from Node class found above (around line 50)
+
+func checkBST(root: Node?) -> Bool {
+    return isBST(root, nil, nil)
+    //nils represent min and max
+}
+
+private func isBST(_ node: Node?, _ min: Int?, _ max: Int?) -> Bool {
+    print("Comparing: \(String(describing: node?.key)) min: \(String(describing: min)) max: \(String(describing: max))")
+    
+    //if nil, hit end of branch
+    guard let node = node else {
+        return true
+    }
+    
+    //else check if min < parent
+    if let min = min, node.key <= min {
+        print("min: \(min), key: \(node.key)")
+        return false
+    }
+    
+    //check if max > parent
+    if let max = max, node.key >= max {
+        print("max: \(max), key: \(node.key)")
+        return false
+    }
+    
+    //if min/max is okay, proceed to next level passing in min/max and parent
+    return isBST(node.left, min, node.key) && isBST(node.right, node.key, max)
+}
+
+/*
+ MARK: You will be expected to build out basic trees in a coding interview!
+ Build out some trees to test with:
+ https://medium.com/swift-solutions/check-if-a-binary-tree-is-a-binary-search-tree-af41e989049
+*/
+
+func validTree() {
+    let root = Node(3)
+    root.left = Node(2)
+    root.right = Node(4)
+    root.left?.left = Node(1)
+    root.right?.right = Node(5)
+        
+        checkBST(root: root)
+    }
+    
+func nonValidTree() {
+    let root = Node(3)
+    root.left = Node(2)
+    root.right = Node(4)
+    root.left?.left = Node(6)
+    root.right?.right = Node(5)
+        
+        checkBST(root: root)
+}
+    
+//    func duplicateValueTree() {
+//        let root = Node(3)
+//        root.left = Node(2)
+//        root.right = Node(4)
+//        root.left?.left = Node(1)
+//        root.right?.right = Node(1)
+//
+//        checkBST(root: root)
+//    }
+print("")
+print(nonValidTree())
+print(validTree())
+
+/*
+ Question 2: find the height of a binary tree:
+ MARK: Start from zero, like an array!
+ */
+
+
+
+
+
+
+

@@ -37,7 +37,7 @@ import Foundation
  
  A "balanced" binary tree has the minimum possible depth, and is as efficient as possible
  
- ex     ABCDE <- balanced         ABCDE <- unbalanced: h = (n +1)/2 - 1
+ ex     ABCDE <- balanced         ABCDE <- unbalanced: h = (n + 1)/2 - 1
        /     \                   /     \
       ABCD    E                 ABCD    E
      /    \                    /    \
@@ -62,6 +62,15 @@ import Foundation
          self.key = key
      }
      
+     func height() -> Int {
+         if isLeaf {
+             return 0
+         } else {
+             print(left?.height() ?? 0, right?.height() ?? 0)
+             return 1 + max(left?.height() ?? 0, right?.height() ?? 0)
+         }
+     }
+     
      //variable to find min
      var min: Node {
          if left == nil {
@@ -69,6 +78,10 @@ import Foundation
          } else {
              return left!.min
          }
+     }
+     
+     var isLeaf: Bool {
+         return left == nil && right == nil
      }
  }
  /*
@@ -252,34 +265,25 @@ print("Algo questions start here:")
  */
 
 //Note building from Node class found above (around line 50)
+//Using In-Order traversal
 
-func checkBST(root: Node?) -> Bool {
-    return isBST(root, nil, nil)
-    //nils represent min and max
-}
-
-private func isBST(_ node: Node?, _ min: Int?, _ max: Int?) -> Bool {
-    print("Comparing: \(String(describing: node?.key)) min: \(String(describing: min)) max: \(String(describing: max))")
+func checkBST(node: Node?, lastValue: inout Int?) -> Bool {
+    guard let node = node else { return true }
     
-    //if nil, hit end of branch
-    guard let node = node else {
-        return true
-    }
+  //lastValue of previous traversal must be <= current value
+    if let previousValue = lastValue, previousValue > node.key { return false }
     
-    //else check if min < parent
-    if let min = min, node.key <= min {
-        print("min: \(min), key: \(node.key)")
-        return false
-    }
+   //visit left
+    if !checkBST(node: node.left, lastValue: &lastValue) { return false }
     
-    //check if max > parent
-    if let max = max, node.key >= max {
-        print("max: \(max), key: \(node.key)")
-        return false
-    }
+    //compare and visit self
+    if let leftValue = lastValue, leftValue > node.key { return false }
+    lastValue = node.key
     
-    //if min/max is okay, proceed to next level passing in min/max and parent
-    return isBST(node.left, min, node.key) && isBST(node.right, node.key, max)
+    //visit right
+    if !checkBST(node: node.right, lastValue: &lastValue) { return false }
+    
+    return true
 }
 
 /*
@@ -288,47 +292,95 @@ private func isBST(_ node: Node?, _ min: Int?, _ max: Int?) -> Bool {
  https://medium.com/swift-solutions/check-if-a-binary-tree-is-a-binary-search-tree-af41e989049
 */
 
-func validTree() {
-    let root = Node(3)
-    root.left = Node(2)
-    root.right = Node(4)
-    root.left?.left = Node(1)
-    root.right?.right = Node(5)
-        
-        checkBST(root: root)
-    }
-    
-func nonValidTree() {
-    let root = Node(3)
-    root.left = Node(2)
-    root.right = Node(4)
-    root.left?.left = Node(6)
-    root.right?.right = Node(5)
-        
-        checkBST(root: root)
-}
-    
-//    func duplicateValueTree() {
-//        let root = Node(3)
-//        root.left = Node(2)
-//        root.right = Node(4)
-//        root.left?.left = Node(1)
-//        root.right?.right = Node(1)
-//
-//        checkBST(root: root)
-//    }
 print("")
-print(nonValidTree())
-print(validTree())
+print("Good BST:")
+var root = Node(3)
+root.left = Node(2)
+root.right = Node(4)
+root.left?.left = Node(1)
+root.right?.right = Node(5)
+var lastValue: Int? = nil
+print("")
+print("This is a true Binary Search Tree: \(checkBST(node: root, lastValue: &lastValue)).")
+print("")
+
+print("Bad BST:")
+root = Node(3)
+root.left = Node(2)
+root.right = Node(4)
+root.left?.left = Node(6)
+root.right?.right = Node(5)
+print("This is a true Binary Search Tree: \(checkBST(node: root, lastValue: &lastValue)).")
+print("")
+    
+print("Duplicate value BST")
+root = Node(3)
+root.left = Node(2)
+root.right = Node(4)
+root.left?.left = Node(1)
+root.right?.right = Node(1)
+print("This is a true Binary Search Tree: \(checkBST(node: root, lastValue: &lastValue)).")
+print("")
 
 /*
  Question 2: find the height of a binary tree:
  MARK: Start from zero, like an array!
+ Can build a function in Node class to do this, but building it out in code below.
  */
 
+//Slightly different naming conventions
 
+class Tree {
+    var x: Int = 0
+    var l: Tree?
+    var r: Tree?
+    
+    init(_ key: Int) {
+        self.x = key
+    }
+}
 
+func solution(_ T: Tree?) -> Int {
+    return height(T!)
+}
 
+func isLeaf(_ tree: Tree?) -> Bool {
+    return tree?.l == nil && tree?.r == nil
+}
+
+func height(_ tree: Tree?) -> Int {
+    if isLeaf(tree) {
+        return 0
+    } else {
+        return 1 + max(height(tree?.l ?? nil), height(tree?.r ?? nil))
+    }
+}
+
+print("BST height answers:")
+var leaf = Tree(5)
+leaf.l = Tree(3)
+leaf.r = Tree(10)
+leaf.l?.l = Tree(20)
+leaf.l?.r = Tree(21)
+leaf.r?.l = Tree(1)
+print("This tree's height is: \(solution(leaf))")
+
+leaf = Tree(4)
+leaf.l = Tree(3)
+leaf.r = Tree(10)
+leaf.l?.l = Tree(20)
+leaf.l?.r = Tree(21)
+leaf.r?.l = Tree(1)
+leaf.r?.r = Tree(15)
+leaf.r?.r?.r = Tree(30)
+leaf.r?.r?.r?.l = Tree(12)
+
+print("This tree's height is: \(solution(leaf))")
+print("")
+
+/*
+ Question 3: lowest common ancestor
+ */
 
 
 

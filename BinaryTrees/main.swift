@@ -380,7 +380,58 @@ print("")
 
 /*
  Question 3: lowest common ancestor
+ Pull data from Node class at line 50-ish
+ 
+                20
+               /  \
+              8    22
+             /  \
+            4   12
+               /  \
+             10    14
  */
 
+class BinaryTree {
+    var root: Node?
+    
+    func lca(_ node: Node?, _ n1: Int, _ n2: Int) -> Node? {
+        if node == nil { return nil }
+        
+        // If both n1 and n2 are smaller than root, then LCA lies in left
+        if node!.key > n1 && node!.key > n2 {
+            return lca(node?.left, n1, n2)
+        }
+        
+        // If both n1 and n2 are larger than root, then LCA lies in right
+        if node!.key < n1 && node!.key < n2 {
+            return lca(node?.right, n1, n2)
+        }
+        
+        // Else we are at the node which is the LCA
+        return node
+    }
+}
+
+
+let tree = BinaryTree()
+tree.root = Node(20)
+tree.root?.left = Node(8)
+tree.root?.right = Node(22)
+tree.root?.left?.left = Node(4)
+tree.root?.left?.right = Node(12)
+tree.root?.left?.right?.left = Node(10)
+tree.root?.left?.right?.right = Node(14)
+
+print("")
+print("Lowest Common Ancestor answers:")
+var n1 = 10, n2 = 14
+var t = tree.lca(tree.root, n1, n2)
+print("LCA of \(n1) and \(n2) is \(t?.key ?? 0)") // 12
+n1 = 14; n2 = 8
+t = tree.lca(tree.root, n1, n2)
+print("LCA of \(n1) and \(n2) is \(t?.key ?? 0)") // 8
+n1 = 10; n2 = 22
+t = tree.lca(tree.root, n1, n2)
+print("LCA of \(n1) and \(n2) is \(t?.key ?? 0)") // 20
 
 
